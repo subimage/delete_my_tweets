@@ -11,6 +11,7 @@ Will delete all of your tweets, retweets, and replies.
     - consumer_secret
     - oauth_token
     - oauth_secret
+  3. Copy config-example.yml to config.yml; enter values from step 2.
 
 ## To Run
 
