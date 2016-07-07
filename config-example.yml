@@ -1,0 +1,9 @@
+# Modify and save as config.yml
+# Must register app @ https://apps.twitter.com to obtain the last 4 values
+#
+-
+  username: 
+  consumer_key: 
+  consumer_secret: 
+  oauth_token: 
+  oauth_secret: 
