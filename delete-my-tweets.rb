@@ -11,6 +11,8 @@ class DeleteMyTweets
     fc = yaml_config.first
     @username = fc['username']
     @num_times_slept = 0
+    @delete_words = fc['search_words_to_delete']
+    @delete_words ||= []
 
     puts "\nDELETING TWEETS FOR: #{@username}"
     puts "(Ctrl-C to stop)\n\n"
@@ -51,6 +53,22 @@ class DeleteMyTweets
   def destroy_tweets
     last_tweet_id = nil
     @tweets.each do |t|
+      #puts t.inspect
+      if @delete_words.length > 0
+        found_keyword_to_delete = false
+        match_text = t['text'].downcase 
+        if t.attrs[:quoted_status] 
+          match_text += ' ' + t.attrs[:quoted_status][:text].downcase
+        end
+        @delete_words.each do |w|
+          if match_text.include?(w)
+            found_keyword_to_delete = true
+            break 
+          end
+        end
+        # only delete tweets with keywords
+        next unless found_keyword_to_delete
+      end
       last_tweet_id = t['id']
       begin 
         if Twitter.status_destroy(last_tweet_id)
