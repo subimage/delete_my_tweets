@@ -1,4 +1,4 @@
-# delete-my-tweets.rb
+# delete_my_tweets.rb
 
 Simple ruby script that cleans your personal twitter timeline.
 Will delete all of your tweets, retweets, and replies.
@@ -15,7 +15,7 @@ Will delete all of your tweets, retweets, and replies.
 
 ## To Run
 
-`ruby delete-my-tweets.rb`
+`ruby delete_my_tweets.rb`
 
 
 ## Questions?
