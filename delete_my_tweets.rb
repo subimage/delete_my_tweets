@@ -17,11 +17,11 @@ class DeleteMyTweets
     puts "\nDELETING TWEETS FOR: #{@username}"
     puts "(Ctrl-C to stop)\n\n"
 
-    Twitter.configure do |config|
-      config.consumer_key       = config['consumer_key']
-      config.consumer_secret    = config['consumer_secret']
-      config.oauth_token        = config['oauth_token']
-      config.oauth_token_secret = config['oauth_secret']
+    @twitter_client = Twitter::REST::Client.new do |tw_config|
+      tw_config.consumer_key       = config['consumer_key']
+      tw_config.consumer_secret    = config['consumer_secret']
+      tw_config.access_token        = config['oauth_token']
+      tw_config.access_token_secret = config['oauth_secret']
     end
   end
 
@@ -41,7 +41,7 @@ class DeleteMyTweets
   end
 
   def fetch_tweets
-    @tweets = Twitter.user_timeline(@username, {
+    @tweets = @twitter_client.user_timeline(@username, {
         :count => 200,
         :include_entities => true,
         :trim_user => true,
@@ -69,10 +69,10 @@ class DeleteMyTweets
         # only delete tweets with keywords
         next unless found_keyword_to_delete
       end
-      last_tweet_id = t['id']
+      last_tweet_id = t.id
       begin
-        if Twitter.status_destroy(last_tweet_id)
-          puts "D: #{t['text']}"
+        if @twitter_client.destroy_status(last_tweet_id)
+          puts "D: #{t.text}"
         else
           puts "\n!!! #{last_tweet_id}\n"
         end
